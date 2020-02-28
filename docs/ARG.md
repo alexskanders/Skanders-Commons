@@ -1,8 +1,8 @@
 # Arg
 The Arg package contains classes for easily reading in arguments from the command line, and from a file.
 
--[Args](#Args)
--[ArgFile](#ArgFile)
+- [Args](#Args)
+- [ArgFile](#ArgFile)
 
 ## Args
 
