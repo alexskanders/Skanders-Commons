@@ -1,8 +1,8 @@
 # Arg
 The Arg package contains classes for easily reading in arguments from the command line, and from a file.
 
-![Args](#Args)
-![ArgFile](#ArgFile)
+-[Args](#Args)
+-[ArgFile](#ArgFile)
 
 ## Args
 
@@ -97,4 +97,5 @@ file= file.txt // This gives file a value of " file.txt" WITH leading space
 ~~~
 
 - To get values as a char[] use `argFile.get(key)`
-- There is a helper function to get char arrays as strings `argFile.copyAsString(key)`, NOTE: This copies the char TO A STRING, meaning even after argFile closes there is still a string copy of the value.
+
+- There is a helper function to get char arrays as strings `argFile.copyAsString(key)`, BUT NOTE: This copies the char TO A STRING, meaning even after argFile closes there is still a string copy of the value.
