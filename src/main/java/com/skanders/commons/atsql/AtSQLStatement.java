@@ -18,7 +18,7 @@
 package com.skanders.commons.atsql;
 
 
-import com.skanders.commons.def.SkandersVerify;
+import com.skanders.commons.def.Verify;
 
 import javax.annotation.Nonnull;
 import java.sql.Connection;
@@ -48,8 +48,8 @@ class AtSQLStatement implements AutoCloseable
             @Nonnull AtSQL atSQL, @Nonnull Connection connection,
             @Nonnull PreparedStatement preparedStatement)
     {
-        SkandersVerify.checkNull(atSQL, "poolManager Cannot be Null");
-        SkandersVerify.checkNull(connection, "connection Cannot be Null");
+        Verify.notNull(atSQL, "poolManager Cannot be Null");
+        Verify.notNull(connection, "connection Cannot be Null");
 
         return new AtSQLStatement(atSQL, connection, preparedStatement);
     }

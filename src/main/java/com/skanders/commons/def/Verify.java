@@ -21,35 +21,47 @@ package com.skanders.commons.def;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SkandersVerify
+public class Verify
 {
-    private static final Logger LOG = LoggerFactory.getLogger(SkandersVerify.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Verify.class);
 
-    public static void checkNull(Object ob)
+    public static void notNull(Object ob)
     {
         if (ob == null)
             throw new SkandersException();
     }
 
-    public static void checkNull(Object ob, String message)
+    public static void notNull(Object ob, String message)
     {
         if (ob == null)
             throw new SkandersException(message);
     }
 
-    public static void argument(boolean arg)
+    public static void notTrue(boolean arg)
     {
         if (arg)
             throw new SkandersException();
     }
 
-    public static void argument(boolean arg, String message)
+    public static void notTrue(boolean arg, String message)
     {
         if (arg)
             throw new SkandersException(message);
     }
 
-    public static <T extends AutoCloseable> void close(T closeableObject)
+    public static void isTrue(boolean arg)
+    {
+        if (!arg)
+            throw new SkandersException();
+    }
+
+    public static void isTrue(boolean arg, String message)
+    {
+        if (!arg)
+            throw new SkandersException(message);
+    }
+
+    public static <T extends AutoCloseable> void closed(T closeableObject)
     {
         try {
             if (closeableObject != null)

@@ -16,18 +16,15 @@
 
 package com.skanders.commons.atsql;
 
-import com.skanders.commons.def.SkandersException;
+import com.skanders.commons.def.Verify;
 import com.zaxxer.hikari.HikariConfig;
 
 import java.util.Map;
 
 public class AtSQLFactory
 {
-    private enum AuSQLType
-    {NONE, JDBC_URL, DRIVER}
-
     private HikariConfig hikariConfig;
-    private AuSQLType    auSQLType;
+    private boolean      driverOrURLset;
 
     private AtSQLFactory(
             String username, String password, long maxLifetime, int maxPoolSize)
@@ -39,10 +36,10 @@ public class AtSQLFactory
         this.hikariConfig.setMaxLifetime(maxLifetime);
         this.hikariConfig.setMaximumPoolSize(maxPoolSize);
 
-        this.auSQLType = AuSQLType.NONE;
+        this.driverOrURLset = false;
     }
 
-    private static AtSQLFactory newInstance(
+    public static AtSQLFactory newInstance(
             String username, String password, long maxLifetime, int maxPoolSize)
     {
         return new AtSQLFactory(username, password, maxLifetime, maxPoolSize);
@@ -51,7 +48,8 @@ public class AtSQLFactory
     public AtSQLFactory withDriver(
             String driver, String hostname, int port, String name)
     {
-        setAuSQLType(AuSQLType.DRIVER);
+        Verify.notTrue(this.driverOrURLset, "Cannot set both Driver and JDBC, only one choice is allowed.");
+        this.driverOrURLset = true;
 
         hikariConfig.setDataSourceClassName(driver);
         hikariConfig.addDataSourceProperty("serverName", hostname);
@@ -63,7 +61,8 @@ public class AtSQLFactory
 
     public AtSQLFactory withJdbcUrl(String url)
     {
-        setAuSQLType(AuSQLType.JDBC_URL);
+        Verify.notTrue(this.driverOrURLset, "Cannot set both Driver and JDBC, only one choice is allowed.");
+        this.driverOrURLset = true;
 
         hikariConfig.setJdbcUrl(url);
 
@@ -92,23 +91,9 @@ public class AtSQLFactory
 
     public AtSQL build()
     {
+        Verify.isTrue(this.driverOrURLset, "Driver or URL must be set.");
+
         return new AtSQL(hikariConfig);
     }
 
-    private void setAuSQLType(AuSQLType auSQLType)
-    {
-        switch (auSQLType) {
-            case NONE:
-                this.auSQLType = auSQLType;
-                return;
-            case JDBC_URL:
-                if (this.auSQLType != AuSQLType.DRIVER)
-                    throw new SkandersException("Cannot set both Driver and JDBC, only one choice is allowed.");
-            case DRIVER:
-                if (this.auSQLType != AuSQLType.JDBC_URL)
-                    throw new SkandersException("Cannot set both Driver and JDBC, only one choice is allowed.");
-            default:
-                // continue
-        }
-    }
 }

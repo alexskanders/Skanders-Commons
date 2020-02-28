@@ -17,7 +17,7 @@
 package com.skanders.commons.worker;
 
 import com.skanders.commons.def.SkandersResult;
-import com.skanders.commons.def.SkandersVerify;
+import com.skanders.commons.def.Verify;
 import com.skanders.commons.result.Result;
 import com.skanders.commons.worker.def.WorkerState;
 import com.skanders.commons.worker.request.CycleWorkerRequest;
@@ -51,9 +51,9 @@ public class CycleWorker
 
     private CycleWorker(@Nonnull Duration cyclePeriod, @Nonnull Runnable func, @Nonnull String name)
     {
-        SkandersVerify.checkNull(cyclePeriod, "cyclePeriod cannot be null");
-        SkandersVerify.checkNull(func, "func cannot be null");
-        SkandersVerify.checkNull(name, "name cannot be null");
+        Verify.notNull(cyclePeriod, "cyclePeriod cannot be null");
+        Verify.notNull(func, "func cannot be null");
+        Verify.notNull(name, "name cannot be null");
 
         this.worker = Executors.newScheduledThreadPool(SINGLE_CORE_POOL);
         this.func   = func;

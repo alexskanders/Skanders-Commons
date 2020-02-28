@@ -17,7 +17,7 @@
 
 package com.skanders.commons.atsql;
 
-import com.skanders.commons.def.SkandersVerify;
+import com.skanders.commons.def.Verify;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,8 +39,8 @@ public class AtSQLResult implements AutoCloseable
 
     static AtSQLResult newInstance(@Nonnull AtSQLStatement atSQLStatement, @Nonnull ResultSet resultSet)
     {
-        SkandersVerify.checkNull(atSQLStatement, "queryManager cannot be null");
-        SkandersVerify.checkNull(resultSet, "resultSet cannot be null");
+        Verify.notNull(atSQLStatement, "queryManager cannot be null");
+        Verify.notNull(resultSet, "resultSet cannot be null");
 
         return new AtSQLResult(atSQLStatement, resultSet);
     }

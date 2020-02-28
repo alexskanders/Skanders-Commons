@@ -30,7 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-class ToPojo
+public class ToPojo
 {
     private static final Logger LOG = LoggerFactory.getLogger(ToPojo.class);
 
@@ -40,73 +40,73 @@ class ToPojo
         return fromNode(Mapper.forJson(), jsonNode, className, feature);
     }
 
-    public static <T> Resulted<T> fromJsonStream(
+    public static <T> Resulted<T> fromJson(
             InputStream jsonText, Class<T> className, DeserializationFeature... feature)
     {
         return fromInputStream(Mapper.forJson(), jsonText, className, feature);
     }
 
-    public static <T> Resulted<T> fromJsonFile(
+    public static <T> Resulted<T> fromJson(
             File jsonFile, Class<T> className, DeserializationFeature... feature)
     {
         return fromFile(Mapper.forJson(), jsonFile, className, feature);
     }
 
-    public static <T> Resulted<T> fromJsonString(
+    public static <T> Resulted<T> fromJson(
             String jsonText, Class<T> className, DeserializationFeature... feature)
     {
         return fromString(Mapper.forJson(), jsonText, className, feature);
     }
 
-    public static <T> Resulted<T> fromJsonBytes(
+    public static <T> Resulted<T> fromJson(
             byte[] jsonBytes, Class<T> className, DeserializationFeature... feature)
     {
         return fromBytes(Mapper.forJson(), jsonBytes, className, feature);
     }
 
-    public static <T> Resulted<T> fromXmlStream(
+    public static <T> Resulted<T> fromXml(
             InputStream xmlText, Class<T> className, DeserializationFeature... feature)
     {
         return fromInputStream(Mapper.forXml(), xmlText, className, feature);
     }
 
-    public static <T> Resulted<T> fromXmlFile(
+    public static <T> Resulted<T> fromXml(
             File xmlFile, Class<T> className, DeserializationFeature... feature)
     {
         return fromFile(Mapper.forXml(), xmlFile, className, feature);
     }
 
-    public static <T> Resulted<T> fromXmlString(
+    public static <T> Resulted<T> fromXml(
             String xmlText, Class<T> className, DeserializationFeature... feature)
     {
         return fromString(Mapper.forXml(), xmlText, className, feature);
     }
 
-    public static <T> Resulted<T> fromXmlBytes(
+    public static <T> Resulted<T> fromXml(
             byte[] xmlBytes, Class<T> className, DeserializationFeature... feature)
     {
         return fromBytes(Mapper.forXml(), xmlBytes, className, feature);
     }
 
-    public static <T> Resulted<T> fromYamlStream(
+    public static <T> Resulted<T> fromYaml(
             InputStream yamlText, Class<T> className, DeserializationFeature... feature)
     {
         return fromInputStream(Mapper.forYaml(), yamlText, className, feature);
     }
 
-    public static <T> Resulted<T> fromYamlFile(
+    public static <T> Resulted<T> fromYaml(
             File yamlFile, Class<T> className, DeserializationFeature... feature)
     {
         return fromFile(Mapper.forYaml(), yamlFile, className, feature);
     }
 
-    public static <T> Resulted<T> fromYamlString(
+    public static <T> Resulted<T> fromYaml(
             String yamlText, Class<T> className, DeserializationFeature... feature)
     {
         return fromString(Mapper.forYaml(), yamlText, className, feature);
     }
 
-    public static <T> Resulted<T> fromYamlBytes(
+    public static <T> Resulted<T> fromYaml(
             byte[] yamlBytes, Class<T> className, DeserializationFeature... feature)
     {
         return fromBytes(Mapper.forYaml(), yamlBytes, className, feature);

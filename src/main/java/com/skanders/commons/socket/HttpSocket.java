@@ -45,9 +45,9 @@ public class HttpSocket
     /**
      * Creates an instance of APISocket
      *
-     * @param uri URL of the target
+     * @param uri        URL of the target
      * @param acceptType MediaType of response from the target
-     * @param path path to the specific endpoint
+     * @param path       path to the specific endpoint
      */
     HttpSocket(URI uri, MediaType acceptType, String path, Client client)
     {
@@ -64,19 +64,19 @@ public class HttpSocket
     /**
      * Calls the method on the target according to the HTTPMethod type given
      * <p>
-     * This will only work on {@link HttpMethod#HEAD}, {@link
-     * HttpMethod#DELETE}, {@link HttpMethod#OPTIONS}, and {@link
-     * HttpMethod#TRACE}
+     * This will only work on {@link HttpMethods#HEAD}, {@link
+     * HttpMethods#DELETE}, {@link HttpMethods#OPTIONS}, and {@link
+     * HttpMethods#TRACE}
      * <p>
-     * For use with {@link HttpMethod#POST} and {@link HttpMethod#PUT} use
-     * {@link #call(HttpMethod, Entity)}
+     * For use with {@link HttpMethods#POST} and {@link HttpMethods#PUT} use
+     * {@link #call(HttpMethods, Entity)}
      *
      * @param method
      * @return a Response instance created by the method call
      * @throws SkandersException on invalid method or use of {@link
-     *                           HttpMethod#POST} or {@link HttpMethod#PUT}
+     *                           HttpMethods#POST} or {@link HttpMethods#PUT}
      */
-    public Response call(HttpMethod method)
+    public Response call(HttpMethods method)
     {
         switch (method) {
             case HEAD:
@@ -87,6 +87,8 @@ public class HttpSocket
                 return options();
             case TRACE:
                 return trace();
+            case PATCH:
+                throw new SkandersException("Patch is not supported at this time");
             default:
                 throw new SkandersException("Cannot call post or put method without entity: use call(method, entity)");
         }
@@ -96,27 +98,29 @@ public class HttpSocket
      * Calls the method on the target according to the HTTPMethod type given
      * with the given entity attached
      * <p>
-     * This will only work on {@link HttpMethod#POST} and {@link
-     * HttpMethod#PUT}
+     * This will only work on {@link HttpMethods#POST} and {@link
+     * HttpMethods#PUT}
      * <p>
-     * For use with {@link HttpMethod#HEAD}, {@link HttpMethod#DELETE}, {@link
-     * HttpMethod#OPTIONS}, and {@link HttpMethod#TRACE} use {@link
-     * #call(HttpMethod, Entity)}
+     * For use with {@link HttpMethods#HEAD}, {@link HttpMethods#DELETE}, {@link
+     * HttpMethods#OPTIONS}, and {@link HttpMethods#TRACE} use {@link
+     * #call(HttpMethods, Entity)}
      *
      * @param method
      * @return a Response instance created by the method call
      * @throws SkandersException on invalid method or use of {@link
-     *                           HttpMethod#HEAD}, {@link HttpMethod#DELETE},
-     *                           {@link HttpMethod#OPTIONS}, or {@link
-     *                           HttpMethod#TRACE}
+     *                           HttpMethods#HEAD}, {@link HttpMethods#DELETE},
+     *                           {@link HttpMethods#OPTIONS}, or {@link
+     *                           HttpMethods#TRACE}
      */
-    public <T> Response call(HttpMethod method, Entity<T> entity)
+    public <T> Response call(HttpMethods method, Entity<T> entity)
     {
         switch (method) {
             case POST:
                 return post(entity);
             case PUT:
                 return put(entity);
+            case PATCH:
+                throw new SkandersException("Patch is not supported at this time");
             default:
                 throw new SkandersException("Cannot call non post, put method with entity: use call(method)");
         }
@@ -146,7 +150,7 @@ public class HttpSocket
      * Calls a POST request
      *
      * @param entity entity
-     * @param <T> entity type
+     * @param <T>    entity type
      * @return an instance of Response
      */
     public <T> Response post(Entity<T> entity)
@@ -158,7 +162,7 @@ public class HttpSocket
      * Calls a PUT request
      *
      * @param entity entity
-     * @param <T> entity type
+     * @param <T>    entity type
      * @return an instance of Response
      */
     public <T> Response put(Entity<T> entity)
@@ -212,7 +216,7 @@ public class HttpSocket
     /**
      * Adds a single header value to the socket call
      *
-     * @param key key for header value
+     * @param key   key for header value
      * @param value value for header key
      * @return the object being called
      */
@@ -239,7 +243,7 @@ public class HttpSocket
     /**
      * Adds a single query value to the socket call
      *
-     * @param key key for query value
+     * @param key   key for query value
      * @param value value for query key
      * @return the object being called
      */

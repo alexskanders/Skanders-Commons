@@ -19,7 +19,7 @@ package com.skanders.commons.atsql;
 
 import com.skanders.commons.def.LogPattern;
 import com.skanders.commons.def.SkandersException;
-import com.skanders.commons.def.SkandersVerify;
+import com.skanders.commons.def.Verify;
 import com.skanders.commons.result.Resulted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ public class AtSQLBatch
 
     AtSQLBatch(String query, @Nonnull AtSQL atSQL)
     {
-        SkandersVerify.checkNull(atSQL, "poolManager cannot be null.");
+        Verify.notNull(atSQL, "poolManager cannot be null.");
 
         this.query          = query;
         this.atSQL          = atSQL;
@@ -118,8 +118,8 @@ public class AtSQLBatch
 
     public Resulted<int[]> executeBatch()
     {
-        SkandersVerify.argument(closed, "SQLQuery cannot be called after closed");
-        SkandersVerify.argument(singleList != null, "using add() requires the use of setBatchList() between set lists");
+        Verify.notTrue(closed, "SQLQuery cannot be called after closed");
+        Verify.notTrue(singleList != null, "using add() requires the use of setBatchList() between set lists");
 
         this.closed = true;
 

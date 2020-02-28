@@ -19,7 +19,7 @@ package com.skanders.commons.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.skanders.commons.def.SkandersVerify;
+import com.skanders.commons.def.Verify;
 import com.skanders.commons.result.Result;
 
 import javax.annotation.Nonnull;
@@ -72,7 +72,7 @@ public abstract class ResponseModel
      */
     public ResponseModel(@Nonnull Result result)
     {
-        SkandersVerify.checkNull(result, "result cannot be null");
+        Verify.notNull(result, "result cannot be null");
 
         this.result = result;
     }
@@ -91,7 +91,7 @@ public abstract class ResponseModel
      */
     public void setResult(@Nonnull Result result)
     {
-        SkandersVerify.checkNull(result, "result cannot be null");
+        Verify.notNull(result, "result cannot be null");
 
         this.result = result;
     }
@@ -110,7 +110,7 @@ public abstract class ResponseModel
     /**
      * Adds a single header value to the response
      *
-     * @param key key for header value
+     * @param key   key for header value
      * @param value value for header key
      */
     @JsonIgnore

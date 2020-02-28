@@ -17,7 +17,7 @@
 
 package com.skanders.commons.socket;
 
-public enum HttpMethod
+public enum HttpMethods
 {
     GET("GET"),
     HEAD("HEAD"),
@@ -25,11 +25,12 @@ public enum HttpMethod
     PUT("PUT"),
     DELETE("DELETE"),
     OPTIONS("OPTIONS"),
+    PATCH("PATCH"),
     TRACE("TRACE");
 
     private final String type;
 
-    HttpMethod(String type)
+    HttpMethods(String type)
     {
         this.type = type;
     }
@@ -40,9 +41,9 @@ public enum HttpMethod
         return type;
     }
 
-    public static HttpMethod toEnum(String type)
+    public static HttpMethods toEnum(String type)
     {
-        return HttpMethod.valueOf(type.toUpperCase().trim());
+        return HttpMethods.valueOf(type.toUpperCase().trim());
     }
 }
 

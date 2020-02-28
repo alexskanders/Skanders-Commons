@@ -39,9 +39,9 @@ public class FromNode
      * @param path dot delimited path to value in yaml
      * @return the value as a Boolean, or null if not found
      */
-    public Boolean toBool(JsonNode node, String path)
+    public static Boolean toBool(JsonNode node, String path)
     {
-        JsonNode value = walkNode(node, path);
+        JsonNode value = toNode(node, path);
 
         return value == null ? null : value.asBoolean();
     }
@@ -52,9 +52,9 @@ public class FromNode
      * @param path dot delimited path to value in yaml
      * @return the value as a Integer, or null if not found
      */
-    public Integer toInt(JsonNode node, String path)
+    public static Integer toInt(JsonNode node, String path)
     {
-        JsonNode value = walkNode(node, path);
+        JsonNode value = toNode(node, path);
 
         return value == null ? null : value.asInt();
     }
@@ -65,9 +65,9 @@ public class FromNode
      * @param path dot delimited path to value in yaml
      * @return the value as a Long, or null if not found
      */
-    public Long toLong(JsonNode node, String path)
+    public static Long toLong(JsonNode node, String path)
     {
-        JsonNode value = walkNode(node, path);
+        JsonNode value = toNode(node, path);
 
         return value == null ? null : value.asLong();
     }
@@ -78,9 +78,9 @@ public class FromNode
      * @param path dot delimited path to value in yaml
      * @return the value as a Double, or null if not found
      */
-    public Double toDouble(JsonNode node, String path)
+    public static Double toDouble(JsonNode node, String path)
     {
-        JsonNode value = walkNode(node, path);
+        JsonNode value = toNode(node, path);
 
         return value == null ? null : value.asDouble();
     }
@@ -91,9 +91,9 @@ public class FromNode
      * @param path dot delimited path to value in yaml
      * @return the value as a String, or null if not found
      */
-    public String toStr(JsonNode node, String path)
+    public static String toStr(JsonNode node, String path)
     {
-        JsonNode value = walkNode(node, path);
+        JsonNode value = toNode(node, path);
 
         return value == null ? null : value.asText();
     }
@@ -101,11 +101,11 @@ public class FromNode
     /**
      * Retrieves the optional value as a Boolean
      *
-     * @param path dot delimited path to value in yaml
+     * @param path         dot delimited path to value in yaml
      * @param defaultValue value to be returned if path is not found
      * @return the value as a Boolean, or defaultValue if not found
      */
-    public Boolean toBool(JsonNode node, String path, Boolean defaultValue)
+    public static Boolean toBool(JsonNode node, String path, Boolean defaultValue)
     {
         Boolean value = toBool(node, path);
 
@@ -115,11 +115,11 @@ public class FromNode
     /**
      * Retrieves the optional value as a Integer
      *
-     * @param path dot delimited path to value in yaml
+     * @param path         dot delimited path to value in yaml
      * @param defaultValue value to be returned if path is not found
      * @return the value as a Integer, or defaultValue if not found
      */
-    public Integer toInt(JsonNode node, String path, Integer defaultValue)
+    public static Integer toInt(JsonNode node, String path, Integer defaultValue)
     {
         Integer value = toInt(node, path);
 
@@ -129,11 +129,11 @@ public class FromNode
     /**
      * Retrieves the optional value as a Long
      *
-     * @param path dot delimited path to value in yaml
+     * @param path         dot delimited path to value in yaml
      * @param defaultValue value to be returned if path is not found
      * @return the value as a Long, or defaultValue if not found
      */
-    public Long toLong(JsonNode node, String path, Long defaultValue)
+    public static Long toLong(JsonNode node, String path, Long defaultValue)
     {
         Long value = toLong(node, path);
 
@@ -143,11 +143,11 @@ public class FromNode
     /**
      * Retrieves the optional value as a Double
      *
-     * @param path dot delimited path to value in yaml
+     * @param path         dot delimited path to value in yaml
      * @param defaultValue value to be returned if path is not found
      * @return the value as a Double, or defaultValue if not found
      */
-    public Double toDouble(JsonNode node, String path, Double defaultValue)
+    public static Double toDouble(JsonNode node, String path, Double defaultValue)
     {
         Double value = toDouble(node, path);
 
@@ -157,11 +157,11 @@ public class FromNode
     /**
      * Retrieves the optional value as a String
      *
-     * @param path dot delimited path to value in yaml
+     * @param path         dot delimited path to value in yaml
      * @param defaultValue value to be returned if path is not found
      * @return the value as a String, or defaultValue if not found
      */
-    public String toStr(JsonNode node, String path, String defaultValue)
+    public static String toStr(JsonNode node, String path, String defaultValue)
     {
         String value = toStr(node, path);
 
@@ -175,7 +175,7 @@ public class FromNode
      * @return the value as a Boolean
      * @throws SkandersException if the path is not found
      */
-    public Boolean toReqBool(JsonNode node, String path)
+    public static Boolean toReqBool(JsonNode node, String path)
     {
         Boolean value = toBool(node, path);
 
@@ -191,7 +191,7 @@ public class FromNode
      * @return the value as a Integer
      * @throws SkandersException if the path is not found
      */
-    public Integer toReqInt(JsonNode node, String path)
+    public static Integer toReqInt(JsonNode node, String path)
     {
         Integer value = toInt(node, path);
 
@@ -207,7 +207,7 @@ public class FromNode
      * @return the value as a Long
      * @throws SkandersException if the path is not found
      */
-    public Long toReqLong(JsonNode node, String path)
+    public static Long toReqLong(JsonNode node, String path)
     {
         Long value = toLong(node, path);
 
@@ -223,7 +223,7 @@ public class FromNode
      * @return the value as a Double
      * @throws SkandersException if the path is not found
      */
-    public Double toReqDouble(JsonNode node, String path)
+    public static Double toReqDouble(JsonNode node, String path)
     {
         Double value = toDouble(node, path);
 
@@ -239,7 +239,7 @@ public class FromNode
      * @return the value as a String
      * @throws SkandersException if the path is not found
      */
-    public String toReqStr(JsonNode node, String path)
+    public static String toReqStr(JsonNode node, String path)
     {
         String value = toStr(node, path);
 
@@ -251,14 +251,14 @@ public class FromNode
     /**
      * Retrieves the optional value as an List
      *
-     * @param path dot delimited path to value in yaml
+     * @param path      dot delimited path to value in yaml
      * @param classType array class type
-     * @param <T> List type to be determined by storing value
+     * @param <T>       List type to be determined by storing value
      * @return the value as an List, or null if not found
      */
-    public <T> List<T> toArray(JsonNode node, String path, Class<T> classType)
+    public static <T> List<T> toArray(JsonNode node, String path, Class<T> classType)
     {
-        JsonNode value = walkNode(node, path);
+        JsonNode value = toNode(node, path);
 
         if (value == null)
             return null;
@@ -271,13 +271,13 @@ public class FromNode
     /**
      * Retrieves the required value as an List
      *
-     * @param path dot delimited path to value in yaml
+     * @param path      dot delimited path to value in yaml
      * @param classType array class type
-     * @param <T> List type to be determined by storing value
+     * @param <T>       List type to be determined by storing value
      * @return the value as an List
      * @throws SkandersException if the path is not found
      */
-    public <T> List<T> toReqArray(JsonNode node, String path, Class<T> classType)
+    public static <T> List<T> toReqArray(JsonNode node, String path, Class<T> classType)
     {
         List<T> value = toArray(node, path, classType);
 
@@ -289,16 +289,16 @@ public class FromNode
     /**
      * Retrieves the optional value as a Map
      *
-     * @param path dot delimited path to value in yaml
-     * @param keyClass key class type
+     * @param path       dot delimited path to value in yaml
+     * @param keyClass   key class type
      * @param valueClass value class type
-     * @param <T> Map key type to be determined by storing value
-     * @param <S> Map value type to be determined by storing value
+     * @param <T>        Map key type to be determined by storing value
+     * @param <S>        Map value type to be determined by storing value
      * @return the value as a Map, or null if not found
      */
-    public <T, S> Map<T, S> toMap(JsonNode node, String path, Class<T> keyClass, Class<S> valueClass)
+    public static <T, S> Map<T, S> toMap(JsonNode node, String path, Class<T> keyClass, Class<S> valueClass)
     {
-        JsonNode value = walkNode(node, path);
+        JsonNode value = toNode(node, path);
 
         if (value == null)
             return null;
@@ -311,15 +311,15 @@ public class FromNode
     /**
      * Retrieves the required value as a Map
      *
-     * @param path dot delimited path to value in yaml
-     * @param keyClass key class type
+     * @param path       dot delimited path to value in yaml
+     * @param keyClass   key class type
      * @param valueClass value class type
-     * @param <T> Map key type to be determined by storing value
-     * @param <S> Map value type to be determined by storing value
+     * @param <T>        Map key type to be determined by storing value
+     * @param <S>        Map value type to be determined by storing value
      * @return the value as a Map
      * @throws SkandersException if the path is not found
      */
-    public <T, S> Map<T, S> toReqMap(JsonNode node, String path, Class<T> keyClass, Class<S> valueClass)
+    public static <T, S> Map<T, S> toReqMap(JsonNode node, String path, Class<T> keyClass, Class<S> valueClass)
     {
         Map<T, S> value = toMap(node, path, keyClass, valueClass);
 
@@ -331,14 +331,14 @@ public class FromNode
     /**
      * Retrieves the optional value as a POJO
      *
-     * @param path dot delimited path to value in yaml
+     * @param path      dot delimited path to value in yaml
      * @param pojoClass pojo class
-     * @param <T> pojo class type
+     * @param <T>       pojo class type
      * @return the value as a POJO, or null if not found
      */
-    public <T> T toPojo(JsonNode node, String path, Class<T> pojoClass)
+    public static <T> T toPojo(JsonNode node, String path, Class<T> pojoClass)
     {
-        JsonNode value = walkNode(node, path);
+        JsonNode value = toNode(node, path);
 
         if (value == null)
             return null;
@@ -354,13 +354,13 @@ public class FromNode
     /**
      * Retrieves the required value as a POJO
      *
-     * @param path dot delimited path to value in yaml
+     * @param path      dot delimited path to value in yaml
      * @param pojoClass pojo class
-     * @param <T> pojo class type
+     * @param <T>       pojo class type
      * @return the value as a POJO
      * @throws SkandersException if the path is not found
      */
-    public <T> T toReqPojo(JsonNode node, String path, Class<T> pojoClass)
+    public static <T> T toReqPojo(JsonNode node, String path, Class<T> pojoClass)
     {
         T value = toPojo(node, path, pojoClass);
 
@@ -375,7 +375,7 @@ public class FromNode
      * @param path dot delimited path to value in yaml
      * @return an instance of JsonNode, or null if not found
      */
-    private JsonNode walkNode(JsonNode node, String path)
+    public static JsonNode toNode(JsonNode node, String path)
     {
         JsonNode value = node;
 
@@ -394,10 +394,10 @@ public class FromNode
      * stating which path was not found.
      *
      * @param path dot delimited path to value in yaml
-     * @param ob object to check
+     * @param ob   object to check
      * @throws SkandersException if the object is null
      */
-    private void requiredValue(String path, Object ob)
+    private static void requiredValue(String path, Object ob)
     {
         if (ob == null)
             throw new SkandersException("Required path: '" + path + "' not found.");

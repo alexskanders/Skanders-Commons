@@ -48,7 +48,7 @@ public class Args
      * All argNames not called in the argValues list are given a missing flag.
      *
      * @param argValues argument values to be attached to names
-     * @param argNames argument names to search for
+     * @param argNames  argument names to search for
      * @return an instance of {@link Args}
      */
     public static Args parse(String[] argValues, String... argNames)

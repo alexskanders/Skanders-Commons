@@ -43,7 +43,7 @@ public class HttpSocketFactory
      * On default all ServiceSocketFactory's use the default static {@link
      * Client}.
      *
-     * @param uri URL of the target
+     * @param uri         URL of the target
      * @param requestType {@link MediaType} type of response from the target
      * @return an instance of ServiceSocketFactory
      */
@@ -58,7 +58,7 @@ public class HttpSocketFactory
      * On default all ServiceSocketFactory's use the default static {@link
      * Client}.
      *
-     * @param uri the string URL of the target
+     * @param uri         the string URL of the target
      * @param requestType {@link MediaType} type of response from the target
      * @return an instance of ServiceSocketFactory
      */
@@ -71,7 +71,7 @@ public class HttpSocketFactory
     /**
      * Creates an instance of ServiceSocketFactory `
      *
-     * @param uri URL of the target
+     * @param uri         URL of the target
      * @param requestType MediaType of response from the target
      */
     private HttpSocketFactory(URI uri, MediaType requestType)

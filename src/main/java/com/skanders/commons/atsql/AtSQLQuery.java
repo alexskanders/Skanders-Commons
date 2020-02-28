@@ -18,7 +18,7 @@
 package com.skanders.commons.atsql;
 
 import com.skanders.commons.def.LogPattern;
-import com.skanders.commons.def.SkandersVerify;
+import com.skanders.commons.def.Verify;
 import com.skanders.commons.result.Resulted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +39,8 @@ public class AtSQLQuery
 
     AtSQLQuery(@Nonnull String query, @Nonnull AtSQL atSQL)
     {
-        SkandersVerify.checkNull(query, "query cannot be null.");
-        SkandersVerify.checkNull(atSQL, "poolManager cannot be null.");
+        Verify.notNull(query, "query cannot be null.");
+        Verify.notNull(atSQL, "poolManager cannot be null.");
 
         this.query          = query;
         this.atSQL          = atSQL;
@@ -64,7 +64,7 @@ public class AtSQLQuery
 
     public Resulted<Integer> executeUpdate()
     {
-        SkandersVerify.argument(closed, "SQLQuery cannot be called after closed");
+        Verify.notTrue(closed, "SQLQuery cannot be called after closed");
         this.closed = true;
 
         LOG.debug(LogPattern.ENTER, "Database Execute Update");
@@ -86,7 +86,7 @@ public class AtSQLQuery
 
     public Resulted<AtSQLResult> executeQuery()
     {
-        SkandersVerify.argument(closed, "SQLQuery cannot be called after closed");
+        Verify.notTrue(closed, "SQLQuery cannot be called after closed");
         this.closed = true;
 
         LOG.debug(LogPattern.ENTER, "Database Execute Query");
@@ -105,7 +105,7 @@ public class AtSQLQuery
         } catch (SQLException e) {
             LOG.error(LogPattern.EXIT_FAIL, "Prepare Database Query Execution", e.getClass(), e.getMessage());
 
-            SkandersVerify.close(atSQLStatement);
+            Verify.closed(atSQLStatement);
 
             return Resulted.inException(e);
 

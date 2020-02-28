@@ -20,7 +20,7 @@ package com.skanders.commons.result;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.skanders.commons.def.SkandersException;
-import com.skanders.commons.def.SkandersVerify;
+import com.skanders.commons.def.Verify;
 import com.skanders.commons.model.ResponseModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,8 +61,8 @@ public class Result
 
     private Result(@Nonnull Integer code, @Nonnull String message)
     {
-        SkandersVerify.checkNull(code, "code cannot be null");
-        SkandersVerify.checkNull(message, "message cannot be null");
+        Verify.notNull(code, "code cannot be null");
+        Verify.notNull(message, "message cannot be null");
 
         this.code    = code;
         this.message = message;
@@ -73,9 +73,9 @@ public class Result
 
     private Result(@Nonnull Integer code, @Nonnull String message, @Nonnull Status status)
     {
-        SkandersVerify.checkNull(code, "code cannot be null");
-        SkandersVerify.checkNull(message, "message cannot be null");
-        SkandersVerify.checkNull(status, "status cannot be null");
+        Verify.notNull(code, "code cannot be null");
+        Verify.notNull(message, "message cannot be null");
+        Verify.notNull(status, "status cannot be null");
 
         this.code    = code;
         this.message = message;
@@ -86,7 +86,7 @@ public class Result
 
     private Result(@Nonnull Exception exception)
     {
-        SkandersVerify.checkNull(exception, "exception cannot be null");
+        Verify.notNull(exception, "exception cannot be null");
 
         this.code    = EXCEPTION.code;
         this.message = EXCEPTION.message;
