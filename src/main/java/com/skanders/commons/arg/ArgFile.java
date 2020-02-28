@@ -31,7 +31,7 @@ public class ArgFile implements AutoCloseable
     private static final char EMPTY_CHAR = '\u0000';
 
     private static final int EOF         = -1;
-    private static final int BUFFER_SIZE = 1024;
+    private static final int BUFFER_SIZE = 4096;
     private static final int ASSIGN      = '=';
     private static final int END         = '\n';
 
