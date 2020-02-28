@@ -113,7 +113,9 @@ public class Args
      */
     public String get(String arg)
     {
-        String value = argTable.get(PREFIX + arg);
+        String value = arg.startsWith(PREFIX) ?
+                       argTable.get(arg) :
+                       argTable.get(PREFIX + arg);
 
         if (value == null)
             throw new SkandersException("Named Argument not given at parse.");
