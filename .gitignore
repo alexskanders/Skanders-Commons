@@ -4,3 +4,4 @@ target
 .DS_Store
 *.iml
 *.versionsBackup
+/src/test/resources/db.txt

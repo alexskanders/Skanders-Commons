@@ -18,7 +18,6 @@
 package com.skanders.commons.atsql;
 
 import com.skanders.commons.def.LogPattern;
-import com.skanders.commons.def.SkandersException;
 import com.skanders.commons.def.Verify;
 import com.skanders.commons.result.Resulted;
 import org.slf4j.Logger;
@@ -33,17 +32,13 @@ public class AtSQLBatch
 {
     private static final Logger LOG = LoggerFactory.getLogger(AtSQLBatch.class);
 
-    private enum BatchType
-    {NONE, SINGLE, LIST}
-
     private final String               query;
     private final AtSQL                atSQL;
     private final List<AtSQLParamList> atSQLParamList;
 
     private AtSQLParamList singleList;
 
-    private boolean   closed;
-    private BatchType batchType;
+    private boolean closed;
 
     AtSQLBatch(String query, @Nonnull AtSQL atSQL)
     {
@@ -53,13 +48,11 @@ public class AtSQLBatch
         this.atSQL          = atSQL;
         this.atSQLParamList = new ArrayList<>();
         this.closed         = false;
-
-        this.batchType = BatchType.NONE;
     }
 
     public AtSQLBatch setBatchList(Object... params)
     {
-        setBatchType(BatchType.LIST);
+        Verify.isTrue(singleList == null, "addBatchList() was not called after using add(...)");
 
         atSQLParamList.add(new AtSQLParamList(params));
 
@@ -68,8 +61,6 @@ public class AtSQLBatch
 
     public AtSQLBatch add(int type, Object value)
     {
-        setBatchType(BatchType.SINGLE);
-
         if (singleList == null)
             singleList = new AtSQLParamList();
 
@@ -81,8 +72,6 @@ public class AtSQLBatch
 
     public AtSQLBatch add(Object value)
     {
-        setBatchType(BatchType.SINGLE);
-
         if (singleList == null)
             singleList = new AtSQLParamList();
 
@@ -91,29 +80,14 @@ public class AtSQLBatch
         return this;
     }
 
-    public AtSQLBatch setBatchList()
+    public AtSQLBatch addBatchList()
     {
+        Verify.isTrue(singleList != null, "addBatchList() cannot be called until add() is used to start a list");
+
         atSQLParamList.add(singleList);
         singleList = null;
 
         return this;
-    }
-
-    private void setBatchType(BatchType batchType)
-    {
-        switch (batchType) {
-            case NONE:
-                this.batchType = batchType;
-                return;
-            case LIST:
-                if (this.batchType != BatchType.LIST)
-                    throw new SkandersException("Cannot switch from using add() to setBatch()");
-            case SINGLE:
-                if (this.batchType != BatchType.SINGLE)
-                    throw new SkandersException("Cannot switch from using setBatch() to add()");
-            default:
-                // continue
-        }
     }
 
     public Resulted<int[]> executeBatch()

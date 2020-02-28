@@ -77,7 +77,11 @@ class AtSQLStatement implements AutoCloseable
     int[] executeBatch()
             throws SQLException
     {
-        return preparedStatement.executeBatch();
+        int[] values = preparedStatement.executeBatch();
+
+        connection.commit();
+
+        return values;
     }
 
     int executeUpdate()

@@ -20,13 +20,10 @@ package com.skanders.commons;
 import com.skanders.commons.config.Config;
 import org.junit.jupiter.api.Test;
 
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class ConfigTest
 {
@@ -34,28 +31,10 @@ public class ConfigTest
     private static final String   PASS   = "PASSWORD";
     private static final String[] NUMBER = new String[]{"One", "Two", "Three", "Four", "Five", "Six"};
 
-    private String getFilePath(String fileName)
-    {
-        try {
-            URL fileUrl = Config.class.getClassLoader().getResource(fileName);
-
-            if (fileUrl != null)
-                return fileUrl.toURI().getPath();
-            else
-                fail("File not found");
-
-        } catch (URISyntaxException e) {
-            fail("File not found");
-
-        }
-
-        return null;
-    }
-
     @Test
     public void testEncryptedFileArray()
     {
-        final String file = getFilePath("test-encrypted-config.yaml");
+        final String file = Resources.getFilePath("test-encrypted-config.yaml");
 
         Config prop = Config.fromEncrypted(file, ALGO, PASS);
 
@@ -74,7 +53,7 @@ public class ConfigTest
     @Test
     public void testEncryptedFileMap()
     {
-        final String file = getFilePath("test-encrypted-config.yaml");
+        final String file = Resources.getFilePath("test-encrypted-config.yaml");
 
         Config prop = Config.fromEncrypted(file, ALGO, PASS);
 
