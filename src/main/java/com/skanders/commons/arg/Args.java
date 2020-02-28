@@ -90,7 +90,7 @@ public class Args
     public boolean isMissing(String key)
     {
         // Purposely doing object reference comparison
-        return MISSING == get(key);
+        return MISSING == getValue(key);
     }
 
     /**
@@ -102,7 +102,7 @@ public class Args
     public boolean isTrue(String key)
     {
         // Purposely doing object reference comparison
-        return FLAG == get(key);
+        return FLAG == getValue(key);
     }
 
     /**
@@ -111,7 +111,7 @@ public class Args
      * @param key argument name
      * @return argument value
      */
-    public String get(String key)
+    private String getValue(String key)
     {
         String value = key.startsWith(PREFIX) ?
                        argTable.get(key) :
@@ -119,6 +119,19 @@ public class Args
 
         if (value == null)
             throw new SkandersException("Named Argument not given at parse.");
+
+        return value;
+    }
+
+    /**
+     * Gets the corresponding argument value
+     *
+     * @param key argument name
+     * @return argument value, or null if missing or flag
+     */
+    public String get(String key)
+    {
+        String value = getValue(key);
 
         return needNull(value) ? null : value;
     }
