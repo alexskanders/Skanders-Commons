@@ -1,4 +1,4 @@
-# Skander Commons
+# Skanders Commons
 
 [![license badge](https://img.shields.io/github/license/alexskanders/Skanders-Commons?logo=apache)](https://github.com/alexskanders/Skanders-Commons/blob/master/LICENSE)
 [![Maven Central](https://img.shields.io/maven-central/v/com.skanders.commons/skanders-commons)](https://search.maven.org/search?q=g:%22com.skanders.commons%22%20AND%20a:%22skanders-commons%22)
