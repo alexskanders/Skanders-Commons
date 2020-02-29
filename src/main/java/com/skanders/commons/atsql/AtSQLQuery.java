@@ -48,6 +48,13 @@ public class AtSQLQuery
         this.closed         = false;
     }
 
+    public AtSQLQuery setList(Object... params)
+    {
+        atSQLParamList.set(params);
+
+        return this;
+    }
+
     public AtSQLQuery set(int type, Object param)
     {
         atSQLParamList.setPair(type, param);

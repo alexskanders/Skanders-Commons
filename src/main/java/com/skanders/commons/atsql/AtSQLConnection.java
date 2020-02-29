@@ -46,6 +46,7 @@ public class AtSQLConnection implements AutoCloseable
         if (this.autoCommit) {
             connection.setAutoCommit(false);
             this.toggledCommit = true;
+            this.autoCommit    = false;
         }
     }
 

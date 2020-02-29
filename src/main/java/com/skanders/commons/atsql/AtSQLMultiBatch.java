@@ -28,64 +28,62 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AtSQLBatch
+public class AtSQLMultiBatch
 {
-    private static final Logger LOG = LoggerFactory.getLogger(AtSQLBatch.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AtSQLMultiBatch.class);
 
     private final AtSQL                atSQL;
-    private final String               query;
+    private final List<String>         queryList;
     private final List<AtSQLParamList> atSQLParamList;
 
     private AtSQLParamList singleList;
 
     private boolean closed;
+    private int     listIndex;
 
-    AtSQLBatch(String query, @Nonnull AtSQL atSQL)
+    AtSQLMultiBatch(@Nonnull AtSQL atSQL)
     {
         Verify.notNull(atSQL, "poolManager cannot be null.");
 
-        this.query          = query;
         this.atSQL          = atSQL;
+        this.queryList      = new ArrayList<>();
         this.atSQLParamList = new ArrayList<>();
         this.closed         = false;
+        this.listIndex      = -1;
     }
 
-    public AtSQLBatch setBatchList(Object... params)
+    public AtSQLMultiBatch setQuery(String query)
     {
-        Verify.isTrue(singleList == null, "addBatchList() was not called after using add(...)");
-
-        atSQLParamList.add(new AtSQLParamList(params));
+        queryList.add(query);
+        listIndex++;
+        atSQLParamList.add(new AtSQLParamList());
 
         return this;
     }
 
-    public AtSQLBatch add(int type, Object value)
+    public AtSQLMultiBatch setList(Object... params)
     {
-        if (singleList == null)
-            singleList = new AtSQLParamList();
+        Verify.notTrue(listIndex == -1, "Must set a query before setting params!");
 
-        singleList.setPair(type, value);
+        atSQLParamList.get(listIndex).setList(params);
 
         return this;
     }
 
-
-    public AtSQLBatch add(Object value)
+    public AtSQLMultiBatch set(int type, Object param)
     {
-        if (singleList == null)
-            singleList = new AtSQLParamList();
+        Verify.notTrue(listIndex == -1, "Must set a query before setting params!");
 
-        singleList.set(value);
+        atSQLParamList.get(listIndex).setPair(type, param);
 
         return this;
     }
 
-    public AtSQLBatch addBatchList()
+    public AtSQLMultiBatch set(Object param)
     {
-        Verify.isTrue(singleList != null, "addBatchList() cannot be called until add() is used to start a list");
+        Verify.notTrue(listIndex == -1, "Must set a query before setting params!");
 
-        atSQLParamList.add(singleList);
-        singleList = null;
+        atSQLParamList.get(listIndex).set(param);
 
         return this;
     }
@@ -103,16 +101,19 @@ public class AtSQLBatch
 
             atSQLConnection.setAutoCommitOff();
 
-            AtSQLStatement atSQLStatement = atSQLConnection.preparedStatement(query);
+            int[] rowsUpdated = new int[queryList.size()];
 
-            for (AtSQLParamList params : atSQLParamList)
-                atSQLStatement.setBatch(params);
+            for (int i = 0; i < queryList.size(); i++) {
+                AtSQLStatement atSQLStatement = atSQLConnection.preparedStatement(queryList.get(i));
 
-            int[] rowUpdates = atSQLStatement.executeBatch();
+                atSQLStatement.setParams(atSQLParamList.get(i));
+
+                rowsUpdated[i] = atSQLStatement.executeUpdate();
+            }
 
             atSQLConnection.commit();
 
-            return Resulted.inValue(rowUpdates);
+            return Resulted.inValue(rowsUpdated);
 
         } catch (SQLException e) {
             LOG.error(LogPattern.EXIT_FAIL, "Prepare Database Update Execution", e.getClass(), e.getMessage());

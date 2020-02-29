@@ -51,6 +51,12 @@ class AtSQLParamList
         atSQLParamList.add(new AtSQLParam(value));
     }
 
+    public void setList(Object... values)
+    {
+        for (Object value : values)
+            atSQLParamList.add(new AtSQLParam(value));
+    }
+
     List<AtSQLParam> getList()
     {
         return atSQLParamList;
