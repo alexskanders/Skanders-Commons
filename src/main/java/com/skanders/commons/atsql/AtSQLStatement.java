@@ -18,43 +18,28 @@
 package com.skanders.commons.atsql;
 
 
-import com.skanders.commons.def.Verify;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-class AtSQLStatement implements AutoCloseable
+class AtSQLStatement
 {
-    private AtSQL             atSQL;
-    private Connection        connection;
+    private static final Logger LOG = LoggerFactory.getLogger(AtSQLStatement.class);
+
     private PreparedStatement preparedStatement;
 
     private boolean closed;
+    private boolean toggledCommit;
 
-    private AtSQLStatement(
-            AtSQL atSQL, Connection connection,
-            PreparedStatement preparedStatement)
+    AtSQLStatement(PreparedStatement preparedStatement)
     {
-        this.atSQL             = atSQL;
-        this.connection        = connection;
         this.preparedStatement = preparedStatement;
-        this.closed            = false;
     }
 
-    static AtSQLStatement newManager(
-            @Nonnull AtSQL atSQL, @Nonnull Connection connection,
-            @Nonnull PreparedStatement preparedStatement)
-    {
-        Verify.notNull(atSQL, "poolManager Cannot be Null");
-        Verify.notNull(connection, "connection Cannot be Null");
-
-        return new AtSQLStatement(atSQL, connection, preparedStatement);
-    }
-
-    void setParams(AtSQLParamList atSQLParamList)
+    AtSQLStatement setParams(AtSQLParamList atSQLParamList)
             throws SQLException
     {
         int count = 1;
@@ -64,24 +49,25 @@ class AtSQLStatement implements AutoCloseable
                 preparedStatement.setObject(count++, atSQLParam.getValue());
             else
                 preparedStatement.setObject(count++, atSQLParam.getValue(), atSQLParam.getType());
+
+        return this;
     }
 
-    void setBatch(AtSQLParamList atSQLParamList)
+    AtSQLStatement setBatch(AtSQLParamList atSQLParamList)
             throws SQLException
     {
         setParams(atSQLParamList);
 
         preparedStatement.addBatch();
+
+        return this;
     }
+
 
     int[] executeBatch()
             throws SQLException
     {
-        int[] values = preparedStatement.executeBatch();
-
-        connection.commit();
-
-        return values;
+        return preparedStatement.executeBatch();
     }
 
     int executeUpdate()
@@ -94,15 +80,6 @@ class AtSQLStatement implements AutoCloseable
             throws SQLException
     {
         return preparedStatement.executeQuery();
-    }
-
-    @Override
-    public void close()
-    {
-        if (!this.closed) {
-            atSQL.releaseCon(connection);
-            this.closed = true;
-        }
     }
 }
 

@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
@@ -59,39 +58,27 @@ public class AtSQL
         return new AtSQLQuery(query, this);
     }
 
-    AtSQLStatement createStatement(String query)
-            throws SQLException
-    {
-        return newStatement(query, true);
-    }
 
-    AtSQLStatement createBatchStatement(String query)
-            throws SQLException
-    {
-        return newStatement(query, false);
-    }
-
-    private AtSQLStatement newStatement(String query, boolean autoCommit)
+    AtSQLConnection newConnection()
             throws SQLException
     {
         LOG.trace(LogPattern.ENTER, "Request Connection");
 
-        Connection connection = hikariDataSource.getConnection();
-
-        PreparedStatement preparedStatement;
+        Connection connection = null;
+        boolean    autoCommit;
 
         try {
-            preparedStatement = connection.prepareStatement(query);
-
-            if (!autoCommit)
-                connection.setAutoCommit(false);
+            connection = hikariDataSource.getConnection();
+            autoCommit = connection.getAutoCommit();
 
         } catch (SQLException e) {
-            hikariDataSource.evictConnection(connection);
+            if (connection != null)
+                connection.close();
+
             throw e;
         }
 
-        return AtSQLStatement.newManager(this, connection, preparedStatement);
+        return new AtSQLConnection(connection, autoCommit);
     }
 
     void releaseCon(Connection connection)

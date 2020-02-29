@@ -18,31 +18,27 @@
 package com.skanders.commons.atsql;
 
 import com.skanders.commons.def.Verify;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.sql.ResultSet;
 
 public class AtSQLResult implements AutoCloseable
 {
-    private static final Logger LOG = LoggerFactory.getLogger(AtSQLResult.class);
+    private AtSQLConnection atSQLConnection;
+    private ResultSet       resultSet;
 
-    private AtSQLStatement atSQLStatement;
-    private ResultSet      resultSet;
-
-    private AtSQLResult(AtSQLStatement atSQLStatement, ResultSet resultSet)
+    private AtSQLResult(AtSQLConnection atSQLConnection, ResultSet resultSet)
     {
-        this.atSQLStatement = atSQLStatement;
-        this.resultSet      = resultSet;
+        this.atSQLConnection = atSQLConnection;
+        this.resultSet       = resultSet;
     }
 
-    static AtSQLResult newInstance(@Nonnull AtSQLStatement atSQLStatement, @Nonnull ResultSet resultSet)
+    static AtSQLResult newInstance(@Nonnull AtSQLConnection atSQLConnection, @Nonnull ResultSet resultSet)
     {
-        Verify.notNull(atSQLStatement, "queryManager cannot be null");
+        Verify.notNull(atSQLConnection, "queryManager cannot be null");
         Verify.notNull(resultSet, "resultSet cannot be null");
 
-        return new AtSQLResult(atSQLStatement, resultSet);
+        return new AtSQLResult(atSQLConnection, resultSet);
     }
 
     public ResultSet getResultSet()
@@ -53,7 +49,7 @@ public class AtSQLResult implements AutoCloseable
     @Override
     public void close()
     {
-        atSQLStatement.close();
+        atSQLConnection.close();
     }
 }
 

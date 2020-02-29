@@ -18,12 +18,21 @@ package com.skanders.commons;
 
 import com.skanders.commons.atsql.AtSQLBatch;
 import com.skanders.commons.result.Resulted;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Types;
 
-public class AtSQLTest
+public class AtSQLBatchTest
 {
+    @BeforeAll
+    public static void clearDb()
+    {
+        String query = "DELETE FROM student WHERE id > 0;";
+
+        Resources.AT_SQL.newQuery(query).executeUpdate();
+    }
+
     @Test
     public void batchInsert()
     {

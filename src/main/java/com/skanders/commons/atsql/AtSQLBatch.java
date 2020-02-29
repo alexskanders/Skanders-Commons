@@ -99,7 +99,11 @@ public class AtSQLBatch
 
         LOG.debug(LogPattern.ENTER, "Database Execute Update");
 
-        try (AtSQLStatement atSQLStatement = atSQL.createBatchStatement(query)) {
+        try (AtSQLConnection atSQLConnection = atSQL.newConnection()) {
+
+            atSQLConnection.setAutoCommitOff();
+
+            AtSQLStatement atSQLStatement = atSQLConnection.preparedStatement(query);
 
             for (AtSQLParamList params : atSQLParamList)
                 atSQLStatement.setBatch(params);

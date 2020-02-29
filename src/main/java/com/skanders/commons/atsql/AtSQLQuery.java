@@ -69,10 +69,12 @@ public class AtSQLQuery
 
         LOG.debug(LogPattern.ENTER, "Database Execute Update");
 
-        try (AtSQLStatement atSQLStatement = atSQL.createStatement(query)) {
-            atSQLStatement.setParams(atSQLParamList);
+        try (AtSQLConnection atSQLConnection = atSQL.newConnection()) {
 
-            Integer updateCount = atSQLStatement.executeUpdate();
+            Integer updateCount = atSQLConnection
+                    .preparedStatement(query)
+                    .setParams(atSQLParamList)
+                    .executeUpdate();
 
             return Resulted.inValue(updateCount);
 
@@ -91,21 +93,22 @@ public class AtSQLQuery
 
         LOG.debug(LogPattern.ENTER, "Database Execute Query");
 
-        AtSQLStatement atSQLStatement = null;
+        AtSQLConnection atSQLConnection = null;
 
         try {
-            atSQLStatement = atSQL.createStatement(query);
+            atSQLConnection = atSQL.newConnection();
 
-            atSQLStatement.setParams(atSQLParamList);
+            ResultSet rs = atSQLConnection
+                    .preparedStatement(query)
+                    .setParams(atSQLParamList)
+                    .executeQuery();
 
-            ResultSet rs = atSQLStatement.executeQuery();
-
-            return Resulted.inValue(AtSQLResult.newInstance(atSQLStatement, rs));
+            return Resulted.inValue(AtSQLResult.newInstance(atSQLConnection, rs));
 
         } catch (SQLException e) {
             LOG.error(LogPattern.EXIT_FAIL, "Prepare Database Query Execution", e.getClass(), e.getMessage());
 
-            Verify.closed(atSQLStatement);
+            Verify.closed(atSQLConnection);
 
             return Resulted.inException(e);
 
