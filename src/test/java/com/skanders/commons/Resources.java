@@ -38,7 +38,7 @@ public class Resources
                 argFile.copyAsString("username"),
                 argFile.copyAsString("password"),
                 30000, 10)
-                .withJdbcUrl(argFile.copyAsString("jdbcurl"))
+                .withJdbcUrl(argFile.copyAsString("jdbcUrl"))
                 .withMySQLPerformanceSettings()
                 .build();
     }
