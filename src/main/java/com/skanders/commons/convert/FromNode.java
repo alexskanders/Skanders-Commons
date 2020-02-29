@@ -36,6 +36,56 @@ public class FromNode
     /**
      * Retrieves the optional value as a Boolean
      *
+     * @return the value as a Boolean, or null if not found
+     */
+    public static Boolean toBool(JsonNode node)
+    {
+        return node.asBoolean();
+    }
+
+    /**
+     * Retrieves the optional value as a Integer
+     *
+     * @return the value as a Integer, or null if not found
+     */
+    public static Integer toInt(JsonNode node)
+    {
+        return node.asInt();
+    }
+
+    /**
+     * Retrieves the optional value as a Long
+     *
+     * @return the value as a Long, or null if not found
+     */
+    public static Long toLong(JsonNode node)
+    {
+        return node.asLong();
+    }
+
+    /**
+     * Retrieves the optional value as a Double
+     *
+     * @return the value as a Double, or null if not found
+     */
+    public static Double toDouble(JsonNode node)
+    {
+        return node.asDouble();
+    }
+
+    /**
+     * Retrieves the optional value as a String
+     *
+     * @return the value as a String, or null if not found
+     */
+    public static String toStr(JsonNode node)
+    {
+        return node.asText();
+    }
+
+    /**
+     * Retrieves the optional value as a Boolean
+     *
      * @param path dot delimited path to value in yaml
      * @return the value as a Boolean, or null if not found
      */
@@ -43,7 +93,7 @@ public class FromNode
     {
         JsonNode value = toNode(node, path);
 
-        return value == null ? null : value.asBoolean();
+        return value == null ? null : toBool(value);
     }
 
     /**
@@ -56,7 +106,7 @@ public class FromNode
     {
         JsonNode value = toNode(node, path);
 
-        return value == null ? null : value.asInt();
+        return value == null ? null : toInt(value);
     }
 
     /**
@@ -69,7 +119,7 @@ public class FromNode
     {
         JsonNode value = toNode(node, path);
 
-        return value == null ? null : value.asLong();
+        return value == null ? null : toLong(value);
     }
 
     /**
@@ -82,7 +132,7 @@ public class FromNode
     {
         JsonNode value = toNode(node, path);
 
-        return value == null ? null : value.asDouble();
+        return value == null ? null : toDouble(value);
     }
 
     /**
@@ -95,7 +145,7 @@ public class FromNode
     {
         JsonNode value = toNode(node, path);
 
-        return value == null ? null : value.asText();
+        return value == null ? null : toStr(value);
     }
 
     /**
@@ -251,6 +301,20 @@ public class FromNode
     /**
      * Retrieves the optional value as an List
      *
+     * @param classType array class type
+     * @param <T>       List type to be determined by storing value
+     * @return the value as an List, or null if not found
+     */
+    public static <T> List<T> toArray(JsonNode node, Class<T> classType)
+    {
+        CollectionType type = Mapper.forJson().getTypeFactory().constructCollectionType(List.class, classType);
+
+        return Mapper.forJson().convertValue(node, type);
+    }
+
+    /**
+     * Retrieves the optional value as an List
+     *
      * @param path      dot delimited path to value in yaml
      * @param classType array class type
      * @param <T>       List type to be determined by storing value
@@ -260,12 +324,7 @@ public class FromNode
     {
         JsonNode value = toNode(node, path);
 
-        if (value == null)
-            return null;
-
-        CollectionType type = Mapper.forJson().getTypeFactory().constructCollectionType(List.class, classType);
-
-        return Mapper.forJson().convertValue(value, type);
+        return value == null ? null : toArray(value, classType);
     }
 
     /**
@@ -289,6 +348,22 @@ public class FromNode
     /**
      * Retrieves the optional value as a Map
      *
+     * @param keyClass   key class type
+     * @param valueClass value class type
+     * @param <T>        Map key type to be determined by storing value
+     * @param <S>        Map value type to be determined by storing value
+     * @return the value as a Map, or null if not found
+     */
+    public static <T, S> Map<T, S> toMap(JsonNode node, Class<T> keyClass, Class<S> valueClass)
+    {
+        MapType type = Mapper.forJson().getTypeFactory().constructMapType(Map.class, keyClass, valueClass);
+
+        return Mapper.forJson().convertValue(node, type);
+    }
+
+    /**
+     * Retrieves the optional value as a Map
+     *
      * @param path       dot delimited path to value in yaml
      * @param keyClass   key class type
      * @param valueClass value class type
@@ -300,12 +375,7 @@ public class FromNode
     {
         JsonNode value = toNode(node, path);
 
-        if (value == null)
-            return null;
-
-        MapType type = Mapper.forJson().getTypeFactory().constructMapType(Map.class, keyClass, valueClass);
-
-        return Mapper.forJson().convertValue(value, type);
+        return value == null ? null : toMap(value, keyClass, valueClass);
     }
 
     /**
@@ -331,6 +401,23 @@ public class FromNode
     /**
      * Retrieves the optional value as a POJO
      *
+     * @param pojoClass pojo class
+     * @param <T>       pojo class type
+     * @return the value as a POJO, or null if not found
+     */
+    public static <T> T toPojo(JsonNode node, Class<T> pojoClass)
+    {
+        Resulted<T> pojo = ToPojo.fromNode(node, pojoClass);
+
+        if (pojo.notValid())
+            throw new SkandersException("Failed to map pojo " + pojo.result().message());
+
+        return pojo.value();
+    }
+
+    /**
+     * Retrieves the optional value as a POJO
+     *
      * @param path      dot delimited path to value in yaml
      * @param pojoClass pojo class
      * @param <T>       pojo class type
@@ -340,15 +427,7 @@ public class FromNode
     {
         JsonNode value = toNode(node, path);
 
-        if (value == null)
-            return null;
-
-        Resulted<T> pojo = ToPojo.fromNode(value, pojoClass);
-
-        if (pojo.notValid())
-            throw new SkandersException("Failed to map pojo " + pojo.result().message());
-
-        return pojo.value();
+        return value == null ? null : toPojo(value, pojoClass);
     }
 
     /**

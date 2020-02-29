@@ -17,6 +17,7 @@
 package com.skanders.commons.convert;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -45,5 +46,10 @@ public class Mapper
     public static ObjectMapper forXml()
     {
         return XML_MAPPER;
+    }
+
+    public static ObjectNode newNode()
+    {
+        return JSON_MAPPER.createObjectNode();
     }
 }

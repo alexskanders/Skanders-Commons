@@ -18,6 +18,7 @@
 package com.skanders.commons.result;
 
 import com.skanders.commons.def.LogPattern;
+import com.skanders.commons.def.SkandersException;
 import com.skanders.commons.model.ResponseModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,12 +90,17 @@ public class Resulted<T> implements AutoCloseable
         return false;
     }
 
-    public void throwNotValid()
+    public void throwOnNotValid()
     {
         if (this.result != Result.VALID) {
             LOG.trace("Result in non valid result: {}", this.result.message());
             throw this.result.toThrowable();
         }
+    }
+
+    public SkandersException toThrowable()
+    {
+        return result.toThrowable();
     }
 
     @Override
