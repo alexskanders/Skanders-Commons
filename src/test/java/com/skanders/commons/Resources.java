@@ -32,7 +32,7 @@ public class Resources
     static {
         ArgFile argFile = ArgFile.parse(getFilePath("db.txt"));
 
-        System.out.println(argFile.copyAsString("jdbcurl"));
+        System.out.println(argFile.copyAsString("jdbcUrl"));
 
         AT_SQL = AtSQLFactory.newInstance(
                 argFile.copyAsString("username"),

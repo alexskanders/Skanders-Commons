@@ -48,17 +48,17 @@ public class AtSQL
         hikariDataSource = new HikariDataSource(config);
     }
 
-    public AtSQLMultiBatch newMultiBatch()
+    public AtSQLMultiBatch createMultiBatch()
     {
         return new AtSQLMultiBatch(this);
     }
 
-    public AtSQLBatch newBatch(@Nonnull String query)
+    public AtSQLBatch createBatch(@Nonnull String query)
     {
         return new AtSQLBatch(query, this);
     }
 
-    public AtSQLQuery newQuery(@Nonnull String query)
+    public AtSQLQuery createQuery(@Nonnull String query)
     {
         return new AtSQLQuery(query, this);
     }

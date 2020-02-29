@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.skanders.commons;
+package com.skanders.commons.arg;
 
-import com.skanders.commons.arg.ArgFile;
+import com.skanders.commons.Resources;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.skanders.commons;
+package com.skanders.commons.config;
 
 
-import com.skanders.commons.config.Config;
+import com.skanders.commons.Resources;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

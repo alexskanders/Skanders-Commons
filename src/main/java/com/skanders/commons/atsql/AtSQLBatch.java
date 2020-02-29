@@ -42,7 +42,8 @@ public class AtSQLBatch
 
     AtSQLBatch(String query, @Nonnull AtSQL atSQL)
     {
-        Verify.notNull(atSQL, "poolManager cannot be null.");
+        Verify.notNull(query, "query cannot be null.");
+        Verify.notNull(atSQL, "atSQL cannot be null.");
 
         this.query          = query;
         this.atSQL          = atSQL;
@@ -50,7 +51,7 @@ public class AtSQLBatch
         this.closed         = false;
     }
 
-    public AtSQLBatch setBatchList(Object... params)
+    public AtSQLBatch setList(Object... params)
     {
         Verify.isTrue(singleList == null, "addBatchList() was not called after using add(...)");
 
@@ -80,7 +81,7 @@ public class AtSQLBatch
         return this;
     }
 
-    public AtSQLBatch addBatchList()
+    public AtSQLBatch pushList()
     {
         Verify.isTrue(singleList != null, "addBatchList() cannot be called until add() is used to start a list");
 

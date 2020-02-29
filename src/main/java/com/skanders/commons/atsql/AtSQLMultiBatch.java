@@ -43,7 +43,7 @@ public class AtSQLMultiBatch
 
     AtSQLMultiBatch(@Nonnull AtSQL atSQL)
     {
-        Verify.notNull(atSQL, "poolManager cannot be null.");
+        Verify.notNull(atSQL, "atSQL cannot be null.");
 
         this.atSQL          = atSQL;
         this.queryList      = new ArrayList<>();

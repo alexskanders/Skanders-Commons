@@ -18,6 +18,7 @@ package com.skanders.commons.atsql;
 
 import com.skanders.commons.def.LogPattern;
 import com.skanders.commons.def.SkandersException;
+import com.skanders.commons.def.Verify;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +36,8 @@ public class AtSQLConnection implements AutoCloseable
 
     AtSQLConnection(Connection connection, boolean autoCommit)
     {
+        Verify.notNull(connection, "connection cannot be null.");
+
         this.connection = connection;
         this.autoCommit = autoCommit;
         this.closed     = false;

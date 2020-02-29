@@ -40,7 +40,7 @@ public class AtSQLQuery
     AtSQLQuery(@Nonnull String query, @Nonnull AtSQL atSQL)
     {
         Verify.notNull(query, "query cannot be null.");
-        Verify.notNull(atSQL, "poolManager cannot be null.");
+        Verify.notNull(atSQL, "atSQL cannot be null.");
 
         this.query          = query;
         this.atSQL          = atSQL;
@@ -50,7 +50,7 @@ public class AtSQLQuery
 
     public AtSQLQuery setList(Object... params)
     {
-        atSQLParamList.set(params);
+        atSQLParamList.setList(params);
 
         return this;
     }

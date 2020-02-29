@@ -29,15 +29,15 @@ public class AtSQLResult implements AutoCloseable
 
     private AtSQLResult(AtSQLConnection atSQLConnection, ResultSet resultSet)
     {
+        Verify.notNull(atSQLConnection, "query cannot be null.");
+        Verify.notNull(resultSet, "atSQL cannot be null.");
+
         this.atSQLConnection = atSQLConnection;
         this.resultSet       = resultSet;
     }
 
     static AtSQLResult newInstance(@Nonnull AtSQLConnection atSQLConnection, @Nonnull ResultSet resultSet)
     {
-        Verify.notNull(atSQLConnection, "queryManager cannot be null");
-        Verify.notNull(resultSet, "resultSet cannot be null");
-
         return new AtSQLResult(atSQLConnection, resultSet);
     }
 

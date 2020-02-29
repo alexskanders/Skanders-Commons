@@ -24,7 +24,7 @@ import java.util.Map;
 public class AtSQLFactory
 {
     private HikariConfig hikariConfig;
-    private boolean      driverOrURLset;
+    private boolean      driverOrUrlSet;
 
     private AtSQLFactory(
             String username, String password, long maxLifetime, int maxPoolSize)
@@ -36,7 +36,7 @@ public class AtSQLFactory
         this.hikariConfig.setMaxLifetime(maxLifetime);
         this.hikariConfig.setMaximumPoolSize(maxPoolSize);
 
-        this.driverOrURLset = false;
+        this.driverOrUrlSet = false;
     }
 
     public static AtSQLFactory newInstance(
@@ -48,8 +48,8 @@ public class AtSQLFactory
     public AtSQLFactory withDriver(
             String driver, String hostname, int port, String name)
     {
-        Verify.notTrue(this.driverOrURLset, "Cannot set both Driver and JDBC, only one choice is allowed.");
-        this.driverOrURLset = true;
+        Verify.notTrue(this.driverOrUrlSet, "Cannot set both Driver and JDBC, only one choice is allowed.");
+        this.driverOrUrlSet = true;
 
         hikariConfig.setDataSourceClassName(driver);
         hikariConfig.addDataSourceProperty("serverName", hostname);
@@ -61,8 +61,8 @@ public class AtSQLFactory
 
     public AtSQLFactory withJdbcUrl(String url)
     {
-        Verify.notTrue(this.driverOrURLset, "Cannot set both Driver and JDBC, only one choice is allowed.");
-        this.driverOrURLset = true;
+        Verify.notTrue(this.driverOrUrlSet, "Cannot set both Driver and JDBC, only one choice is allowed.");
+        this.driverOrUrlSet = true;
 
         hikariConfig.setJdbcUrl(url);
 
@@ -72,8 +72,8 @@ public class AtSQLFactory
     public AtSQLFactory withDataSourceProperties(Map<String, Object> dbProperties)
     {
         if (dbProperties != null)
-            for (Object key : dbProperties.keySet())
-                hikariConfig.addDataSourceProperty((String) key, dbProperties.get(key));
+            for (String key : dbProperties.keySet())
+                hikariConfig.addDataSourceProperty(key, dbProperties.get(key));
 
         return this;
     }
@@ -91,7 +91,7 @@ public class AtSQLFactory
 
     public AtSQL build()
     {
-        Verify.isTrue(this.driverOrURLset, "Driver or URL must be set.");
+        Verify.isTrue(driverOrUrlSet, "Driver or URL must be set.");
 
         return new AtSQL(hikariConfig);
     }
