@@ -97,6 +97,22 @@ public abstract class ResponseModel
     }
 
     /**
+     * @param status status to set the internal Result to
+     */
+    public void setStatus(int status)
+    {
+        this.result.setStatus(status);
+    }
+
+    /**
+     * @param status status to set the internal Result to
+     */
+    public void setStatus(Status status)
+    {
+        this.result.setStatus(status);
+    }
+
+    /**
      * Adds all headers from the given headers and to the response headers
      *
      * @param headers a MultivaluedMap instance

@@ -57,6 +57,11 @@ public class Result
 
     private Result()
     {
+        this.code    = UNDECLARED.code;
+        this.message = UNDECLARED.message;
+        this.status  = UNDECLARED.status;
+
+        this.exception = null;
     }
 
     private Result(@Nonnull Integer code, @Nonnull String message)
@@ -163,6 +168,18 @@ public class Result
     public Exception exception()
     {
         return exception;
+    }
+
+    @JsonIgnore
+    public void setStatus(int status)
+    {
+        this.status = Status.fromStatusCode(status);
+    }
+
+    @JsonIgnore
+    public void setStatus(Status status)
+    {
+        this.status = status;
     }
 
     @JsonIgnore
